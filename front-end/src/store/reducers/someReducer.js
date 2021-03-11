@@ -1,3 +1,5 @@
+import { FETCH_DATA_REQUEST, FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE, POST_DATA_FAILURE, POST_DATA_REQUEST, POST_DATA_SUCCESS } from "../actions/message";
+
 const initialState = {
     loading:false,
     data:null,
@@ -5,5 +7,20 @@ const initialState = {
 };
 
 export const someReducer = (state = initialState, action) => {
-    return state;
+    switch (action.type) {
+        case POST_DATA_REQUEST:
+            return {...state, loading:true};
+        case POST_DATA_SUCCESS:
+            return {...state, loading:false, data:action.value}
+        case POST_DATA_FAILURE:
+            return {...state, loading:false, error:action.error}
+        case FETCH_DATA_REQUEST:
+            return {...state, loading:true};
+        case FETCH_DATA_SUCCESS:
+            return {...state, data:action.value};
+        case FETCH_DATA_FAILURE:
+            return {...state, loading:false, error:action.error};
+        default:
+            return state;
+    };
 };

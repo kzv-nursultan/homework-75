@@ -4,7 +4,7 @@ const filename = './db.json';
 
 let data = {};
 
-module.export = {
+module.exports = {
     init() {
         try {
             const fileData = fs.readFileSync(filename);
@@ -14,10 +14,16 @@ module.export = {
         };
     },
     getItems() {
-        return data;
+        try {
+            const fileData = fs.readFileSync(filename);
+            return data = JSON.parse(fileData);
+        } catch {
+            return data = {};
+        };
     },
     addItem(item) {
         data = item;
+        console.log('on additem',data);
         this.save();
     },
     save() {

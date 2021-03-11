@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
@@ -6,6 +7,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import { IconButton } from '@material-ui/core';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import { postData, fetchData } from '../store/actions/message';
 
 const useStyles = makeStyles(theme=>({
     inputBlock:{
@@ -18,14 +20,17 @@ const useStyles = makeStyles(theme=>({
 
 
 
-const MainPage = () => {    
+const MainPage = () => { 
+    const dispatch = useDispatch();
+    const classes = useStyles();
+
+    const state = useSelector(state => state.someReducer);
     const [input, setInput] = useState({
-        incode:'',
+        encode:'',
         password:'',
         decode:'',
     });
 
-    const classes = useStyles();
 
     const onChangeHandler = e => {
         const name = e.target.name;
@@ -35,7 +40,24 @@ const MainPage = () => {
             ...prevState,
             [name]:value
         }));
-        console.log(input);
+    };
+
+    const onDecodeClick = () => {
+        const newData = {
+            message: input.decode,
+            password: input.password
+        };
+        dispatch(postData('/encode', newData));
+        dispatch(fetchData('/encode','encoded',setInput,'encode'));
+    };
+
+    const onEncodeClick = () => {
+        const newData = {
+            message: input.encode,
+            password: input.password
+        };
+        dispatch(postData('/decode', newData));
+        dispatch(fetchData('/decode','decoded',setInput,'decode'));
     };
 
     return (
@@ -50,7 +72,8 @@ const MainPage = () => {
                     <Box m={3}>
                         <TextField
                         className={classes.inputs} 
-                        label='Decode' 
+                        label='Decode'
+                        value={input.decode} 
                         variant='outlined'
                         multiline 
                         rows={5}
@@ -69,11 +92,11 @@ const MainPage = () => {
                         onChange={(e)=>onChangeHandler(e)}
                         required/>
 
-                        <IconButton>
+                        <IconButton type='submit' onClick={onDecodeClick}>
                             <ArrowDownwardIcon/>
                          </IconButton>
 
-                         <IconButton>
+                         <IconButton onClick={onEncodeClick}>
                             <ArrowUpwardIcon/>
                          </IconButton>
                 </Grid>
@@ -82,11 +105,12 @@ const MainPage = () => {
                     <Box m={3}>
                         <TextField
                         className={classes.inputs} 
-                        label='Incode' 
+                        label='Encode' 
+                        value={input.encode}
                         variant='outlined'
                         multiline 
                         rows={5}
-                        name='incode'
+                        name='encode'
                         onChange={(e)=>onChangeHandler(e)}/>
                     </Box>
                 </Grid>
