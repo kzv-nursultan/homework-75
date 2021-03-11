@@ -1,4 +1,5 @@
 const fs = require('fs');
+const Vigenere = require('caesar-salad').Vigenere;
 
 const filename = './db.json';
 
@@ -14,17 +15,25 @@ module.exports = {
         };
     },
     getItems() {
-        try {
-            const fileData = fs.readFileSync(filename);
-            return data = JSON.parse(fileData);
-        } catch {
-            return data = {};
-        };
+        return data;
     },
     addItem(item) {
-        data = item;
-        console.log('on additem',data);
+        data = {
+            decoded: item.message,
+            password: item.password,
+            encoded: Vigenere.Cipher(item.password).crypt(item.message)
+        };
         this.save();
+        this.init();
+    },
+    addItemDecoded(item){
+        data = {
+            decoded:Vigenere.Decipher(item.password).crypt(item.message),
+            password: item.password,
+            encoded:item.message
+        }
+        this.save();
+        this.init();
     },
     save() {
         fs.writeFileSync(filename,JSON.stringify(data));

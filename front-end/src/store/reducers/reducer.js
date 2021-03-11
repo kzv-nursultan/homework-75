@@ -1,4 +1,4 @@
-import { FETCH_DATA_REQUEST, FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE, POST_DATA_FAILURE, POST_DATA_REQUEST, POST_DATA_SUCCESS } from "../actions/message";
+import { FETCH_DATA_REQUEST, FETCH_DATA_SUCCESS, FETCH_DATA_FAILURE, POST_DATA_FAILURE, POST_DATA_REQUEST, POST_DATA_SUCCESS } from "../actions/action";
 
 const initialState = {
     loading:false,
@@ -6,7 +6,7 @@ const initialState = {
     error:null
 };
 
-export const someReducer = (state = initialState, action) => {
+export const reducer = (state = initialState, action) => {
     switch (action.type) {
         case POST_DATA_REQUEST:
             return {...state, loading:true};

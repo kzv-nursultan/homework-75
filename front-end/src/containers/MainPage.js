@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import {makeStyles} from "@material-ui/core/styles";
-import { IconButton } from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import { postData, fetchData } from '../store/actions/message';
+import { postData, fetchData } from '../store/actions/action';
 
 const useStyles = makeStyles(theme=>({
     inputBlock:{
@@ -24,7 +24,6 @@ const MainPage = () => {
     const dispatch = useDispatch();
     const classes = useStyles();
 
-    const state = useSelector(state => state.someReducer);
     const [input, setInput] = useState({
         encode:'',
         password:'',
@@ -48,7 +47,7 @@ const MainPage = () => {
             password: input.password
         };
         dispatch(postData('/encode', newData));
-        dispatch(fetchData('/encode','encoded',setInput,'encode'));
+        dispatch(fetchData('/encode','encoded',setInput,'encode'));        
     };
 
     const onEncodeClick = () => {
@@ -92,11 +91,13 @@ const MainPage = () => {
                         onChange={(e)=>onChangeHandler(e)}
                         required/>
 
-                        <IconButton type='submit' onClick={onDecodeClick}>
+                        <IconButton onClick={onDecodeClick} 
+                        disabled={input.password.length<1}>
                             <ArrowDownwardIcon/>
                          </IconButton>
 
-                         <IconButton onClick={onEncodeClick}>
+                         <IconButton onClick={onEncodeClick}
+                         disabled={input.password.length<1}>
                             <ArrowUpwardIcon/>
                          </IconButton>
                 </Grid>

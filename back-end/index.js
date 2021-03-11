@@ -3,9 +3,9 @@ const cors = require('cors');
 const app = express();
 const fileDb = require('./fileDb');
 
+
 app.use(express.json());
 app.use(cors());
-const Vigenere = require('caesar-salad').Vigenere;
 
 fileDb.init();
 
@@ -17,24 +17,24 @@ app.post('/encode',(req,res)=>{
 });
 
 app.get('/encode',(req,res)=>{
+    fileDb.init();
     const data = fileDb.getItems();
     const messages = {
-        encoded:Vigenere.Cipher(data.password).crypt(data.message),
+        encoded:data.encoded,
     };
     res.send(messages);
 });
 
-
 app.post('/decode',(req,res)=>{
-    fileDb.addItem(req.body);
+    fileDb.addItemDecoded(req.body);
     res.send(req.body);
 });
 
 app.get('/decode',(req,res)=>{
+    fileDb.init();
     const data = fileDb.getItems();
-    console.log('ondecode',data);
     const messages = {
-        decoded:Vigenere.Decipher(data.password).crypt(data.message)
+        decoded:data.decoded
     };
     res.send(messages);
 });
