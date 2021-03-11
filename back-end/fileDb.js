@@ -24,7 +24,6 @@ module.exports = {
             encoded: Vigenere.Cipher(item.password).crypt(item.message)
         };
         this.save();
-        this.init();
     },
     addItemDecoded(item){
         data = {
@@ -33,7 +32,6 @@ module.exports = {
             encoded:item.message
         }
         this.save();
-        this.init();
     },
     save() {
         fs.writeFileSync(filename,JSON.stringify(data));

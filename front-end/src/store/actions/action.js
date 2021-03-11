@@ -40,7 +40,7 @@ export const postData = (path,item) => {
     };
 };
 
-export const fetchData = (path,key,setInput,value) => {
+export const fetchData = (path,key,setInput) => {
     return async dispatch => {
         try {
             dispatch(fetchDataRequest());
@@ -48,7 +48,7 @@ export const fetchData = (path,key,setInput,value) => {
             dispatch(fetchDataSuccess(response['data'][key]));
             setInput(prevState=>({
                 ...prevState,
-                [value]:response.data[key]
+                [path]:response.data[key]
             }));
         } catch (e) {
             dispatch(fetchDataFailure(e));

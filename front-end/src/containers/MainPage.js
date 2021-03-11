@@ -41,22 +41,22 @@ const MainPage = () => {
         }));
     };
 
-    const onDecodeClick = () => {
+    const onDecodeClick = async () => {
         const newData = {
             message: input.decode,
             password: input.password
         };
-        dispatch(postData('/encode', newData));
-        dispatch(fetchData('/encode','encoded',setInput,'encode'));        
+        await dispatch(postData('encode', newData));
+        dispatch(fetchData('encode','encoded',setInput));        
     };
 
-    const onEncodeClick = () => {
+    const onEncodeClick = async () => {
         const newData = {
             message: input.encode,
             password: input.password
         };
-        dispatch(postData('/decode', newData));
-        dispatch(fetchData('/decode','decoded',setInput,'decode'));
+        await dispatch(postData('decode', newData));
+        dispatch(fetchData('decode','decoded',setInput));
     };
 
     return (

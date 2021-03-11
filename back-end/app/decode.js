@@ -3,13 +3,12 @@ const fileDb = require('../fileDb');
 const router = express.Router();
 router.use(express.json());
 
-router.post('/',(req,res)=>{
+router.post('/', (req,res)=>{
     fileDb.addItemDecoded(req.body);
     res.send(req.body);
 });
 
-router.get('/',(req,res)=>{
-    fileDb.init();
+router.get('/', (req,res)=>{
     const data = fileDb.getItems();
     const messages = {
         decoded:data.decoded

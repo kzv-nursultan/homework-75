@@ -11,7 +11,7 @@ export const reducer = (state = initialState, action) => {
         case POST_DATA_REQUEST:
             return {...state, loading:true};
         case POST_DATA_SUCCESS:
-            return {...state, loading:false, data:action.value}
+            return {...state, loading:false}
         case POST_DATA_FAILURE:
             return {...state, loading:false, error:action.error}
         case FETCH_DATA_REQUEST:

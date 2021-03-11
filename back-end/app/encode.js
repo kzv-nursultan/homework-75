@@ -10,7 +10,6 @@ router.post('/',(req,res)=>{
 });
 
 router.get('/',(req,res)=>{
-    fileDb.init();
     const data = fileDb.getItems();
     const messages = {
         encoded:data.encoded,
